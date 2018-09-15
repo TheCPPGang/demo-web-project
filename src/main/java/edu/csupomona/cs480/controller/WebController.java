@@ -55,7 +55,11 @@ public class WebController {
 		// with the URL: http://localhost:8080/
 		return "OK-CS480-Demo";
 	}
-
+""
+	@RequestMapping(value = "/cs4800/hello", method = RequestMethod.Get)
+	String helloWorld(){
+		return "world!";
+	}
 	/**
 	 * This is a simple example of how to use a data manager
 	 * to retrieve the data and return it as an HTTP response.
