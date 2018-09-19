@@ -60,6 +60,11 @@ public class WebController {
 	String helloWorld(){
 		return "world!";
 	}
+	
+	@RequestMapping(value = "/cs4800/name", method = RequestMethod.GET")
+	String myName(){
+		return "Jaewon Hong";
+	}		
 	/**
 	 * This is a simple example of how to use a data manager
 	 * to retrieve the data and return it as an HTTP response.
