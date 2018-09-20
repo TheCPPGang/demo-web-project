@@ -55,13 +55,13 @@ public class WebController {
 		// with the URL: http://localhost:8080/
 		return "OK-CS480-Demo";
 	}
-""
-	@RequestMapping(value = "/cs4800/hello", method = RequestMethod.Get)
+
+	@RequestMapping(value = "/cs4800/hello", method = RequestMethod.GET)
 	String helloWorld(){
 		return "world!";
 	}
 	
-	@RequestMapping(value = "/cs4800/name", method = RequestMethod.GET")
+	@RequestMapping(value = "/cs4800/name", method = RequestMethod.GET)
 	String myName(){
 		return "Jaewon Hong";
 	}		
