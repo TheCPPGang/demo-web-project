@@ -1,5 +1,6 @@
 package edu.csupomona.cs480.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,17 @@ public class WebController {
 	@RequestMapping(value = "/cs4800/name", method = RequestMethod.GET)
 	String myName(){
 		return "Jaewon Hong";
-	}		
+	}
+	
+	@RequestMapping( value = "/cs4800/list", method = RequestMethod.GET )
+	List<Integer> intList()
+	{
+		List<Integer> intList = new ArrayList<Integer>();
+		for ( int i = 0; i < 10; i++ )
+			intList.add( i );
+		
+		return intList;
+	}
 	/**
 	 * This is a simple example of how to use a data manager
 	 * to retrieve the data and return it as an HTTP response.
