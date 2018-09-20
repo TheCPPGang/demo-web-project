@@ -67,6 +67,11 @@ public class WebController {
 		return "Jaewon Hong";
 	}
 	
+	@RequestMapping(value = "/cs4800/motto", method = RequestMethod.GET)
+	String motto(){
+		return "Instrumentum Disciplinae";
+	}
+	
 	@RequestMapping( value = "/cs4800/list", method = RequestMethod.GET )
 	List<Integer> intList()
 	{
