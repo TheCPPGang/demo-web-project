@@ -1,8 +1,11 @@
 package edu.csupomona.cs480.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.inference.TestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,6 +68,21 @@ public class WebController {
 	@RequestMapping(value = "/cs4800/name", method = RequestMethod.GET)
 	String myName(){
 		return "Jaewon Hong";
+	}
+	
+	@RequestMapping(value = "/cs4800/math", method = RequestMethod.GET)
+	String testStatisticalTests() throws Exception {
+	    double[] x = new double[1000];
+	    for (int i = 0; i < x.length; i++) {
+	        x[i] = Math.random()*100+1;
+	    }
+	    double mu = new DescriptiveStatistics(x).getMean();
+	    System.out.println("Mean: " + mu);
+	    String value = "t-statistic for true mean (50): " + TestUtils.t(50, x) +
+	    "  p-value for true mean (50): " + TestUtils.tTest(50,x) + 
+	    "  t-statistic for false mean (75): " + TestUtils.t(75,x) +
+	    "  p-value for false mean (75): " + TestUtils.tTest(75,x);
+	    return value;
 	}
 	
 	@RequestMapping(value = "/cs4800/motto", method = RequestMethod.GET)
