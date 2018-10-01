@@ -1,11 +1,16 @@
 package edu.csupomona.cs480.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.stat.inference.TestUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import edu.csupomona.cs480.App;
 import edu.csupomona.cs480.data.GpsProduct;
+import edu.csupomona.cs480.data.SsdProduct;
 import edu.csupomona.cs480.data.User;
 import edu.csupomona.cs480.data.provider.GpsProductManager;
 import edu.csupomona.cs480.data.provider.UserManager;
@@ -98,6 +105,42 @@ public class WebController {
 			intList.add( i );
 		
 		return intList;
+	}
+	
+	@RequestMapping( value = "/cs4800/ssd", method = RequestMethod.GET )
+	ModelAndView spongeBob() {
+		ModelAndView modelAndView = new ModelAndView("ssd");
+		try {
+			Document doc = Jsoup.connect("https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313.TR12.TRC2.A0.H0.Xssd.TRS0&_nkw=ssd&_sacat=0").get();
+			Elements prices = doc.getElementsByClass("s-item__price");
+			Elements titles = doc.getElementsByClass("s-item__title");
+			Elements links = doc.getElementsByClass("s-item__link");
+			List<SsdProduct> ssds = new ArrayList<>();
+			String tempTitle = "";
+			for (int i = 0; i < prices.size(); i++) {
+				SsdProduct prod = new SsdProduct();
+				tempTitle = titles.get(i).text();
+
+				if(tempTitle.contains("SPONSORED") || tempTitle.contains("New Listing")) {
+					tempTitle = tempTitle.replaceAll("SPONSORED", "");
+					tempTitle =  tempTitle.replaceAll("New Listing", "");
+				}
+				
+				prod.setTitle(tempTitle);
+				prod.setPrice(prices.get(i).text());
+				prod.setLink(links.get(i).attr("href"));
+				
+				ssds.add(prod);
+			}
+			
+			modelAndView.addObject("ssds", ssds);	
+			
+			return modelAndView;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return modelAndView;
+		}
 	}
 	/**
 	 * This is a simple example of how to use a data manager
