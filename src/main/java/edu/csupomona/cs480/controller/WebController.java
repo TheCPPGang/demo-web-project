@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.common.primitives.UnsignedInteger;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.stat.inference.TestUtils;
 import org.jsoup.Jsoup;
@@ -105,6 +106,33 @@ public class WebController {
 			intList.add( i );
 		
 		return intList;
+	}
+	
+	@RequestMapping( value = "/cs4800/guava", method = RequestMethod.GET )
+	List<String> unsignedIntegers()
+	{
+		List<String> list = new ArrayList<String>();
+		list.add( "This is a list demonstrating unsigned integers in the Google Guava package" );
+		list.add( "Integer.MAX_VALUE == " + Integer.MAX_VALUE );
+		list.add( "UnsignedInteger.MAX_VALUE == " + UnsignedInteger.MAX_VALUE );
+		list.add( "Integer.MIN_VALUE == " + Integer.MIN_VALUE );
+		list.add( "UnsignedInteger.MIN_VALUE == " + UnsignedInteger.ZERO );
+		list.add( "Given a 32-bit integer defined as 0xCA97FD36:" );
+		list.add( "Integer.valueOf( 0xCA97FD36 ) == " + Integer.valueOf( 0xCA97FD36 ) );
+		
+		try
+		{
+			list.add( "UnsignedInteger.valueOf( 0xCA97FD36 ) == " + UnsignedInteger.valueOf( 0xCA97FD36 ) );
+		}
+		catch ( IllegalArgumentException e )
+		{
+			list.add( "-----------------------------------------------------------------------------------" );
+			list.add( "UnsignedInteger.valueOf( 0xCA97FD36 ) throws an IllegalArgumentException instead.");
+			list.add( "This is due to Java lacking true support for unsigned values," );
+			list.add( "causing negative 32-bit values to throw errors when cast as unsigned" );
+		}
+		
+		return list;
 	}
 	
 	@RequestMapping( value = "/cs4800/ssd", method = RequestMethod.GET )
